@@ -1,40 +1,28 @@
 package com.nilunder.bdx.utils;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.vecmath.Vector3f;
 
-public class Random{
+public class Random {
 
-	private static java.util.Random R;
-
-	public static <T> T choice(ArrayList<T> list){
-		if (R == null){
-			R = new java.util.Random();
-		}
-		return list.get(R.nextInt(list.size()));
+	public static <T> T choice(List<T> list){
+		return list.get(ThreadLocalRandom.current().nextInt(list.size()));
 	}
 
 	@SafeVarargs
 	public static <T> T choice(T... args) {
-		if (R == null){
-			R = new java.util.Random();
-		}
-		return args[R.nextInt(args.length)];
+		return args[ThreadLocalRandom.current().nextInt(args.length)];
 	}
 
 	public static float random(){
-		if (R == null){
-			R = new java.util.Random();
-		}
-		return R.nextFloat();
+		return ThreadLocalRandom.current().nextFloat();
 	}
 	
 	public static void seed(long seed){
-		if (R == null)
-			R = new java.util.Random();
-		
-		R.setSeed(seed);
+		ThreadLocalRandom.current().setSeed(seed);
 	}
 
 	public static float random(float min, float max){
@@ -50,9 +38,7 @@ public class Random{
 	}
 
 	public static Vector3f vector(){
-		ArrayList<Integer> ints = new ArrayList<Integer>();
-		ints.add(1);
-		ints.add(-1);
+		List<Integer> ints = Arrays.asList(1, -1);
 		return new Vector3f(
 				Random.random() * Random.choice(ints),
 				Random.random() * Random.choice(ints),
