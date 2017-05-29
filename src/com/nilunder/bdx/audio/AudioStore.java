@@ -7,9 +7,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 abstract class AudioStore<T> extends HashMap<String,T>{
-	
+
 	private String pathRoot;
-	
+
 	public AudioStore(String pathRoot){
 		pathRoot(pathRoot);
 	}
@@ -26,23 +26,23 @@ abstract class AudioStore<T> extends HashMap<String,T>{
 		}
 		return audio;
 	}
-	
+
 	protected T loadAudio(String fileName){
 		// return Gdx.audio.newSound(findFile(fileName));
 		// -- OR --
 		// return Gdx.audio.newMusic(findFile(fileName));
 		return null;
 	}
-	
+
 	protected FileHandle findFile(String name){
-		String[] supported = {".wav", ".mp3", ".ogg"};
-		String files = "";
+		String[] supported = {".wav", ".WAV", ".mp3", ".MP3", ".ogg", ".OGG"};
+		StringBuilder files = new StringBuilder();
 		for (String ext : supported){
 			FileHandle f = Gdx.files.internal(pathRoot + name + ext);
 			if (f.exists())
 				return f;
-			files += name + ext + (ext.equals(".ogg") ? "" : " or ");
+			files.append(name + ext + (ext.equalsIgnoreCase(".ogg") ? "" : " or "));
 		}
-		throw new GdxRuntimeException("Could not find " + files + " in " + pathRoot);
+		throw new GdxRuntimeException("Could not find " + files.toString() + " in " + pathRoot);
 	}
 }
